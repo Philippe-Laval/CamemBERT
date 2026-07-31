@@ -9,6 +9,10 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.IO;
 
+// For a real model, download from HuggingFace:
+//   vocab.json: https://huggingface.co/Qwen/Qwen3-32B/tree/main/vocab.json
+//   merges.txt: https://huggingface.co/Qwen/Qwen3-32B/tree/main/merges.txt
+
 // https://github.com/AliAlAali/Qwen3.Net.Tokenizers
 // MIT License - Ali Alaali
 
