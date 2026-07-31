@@ -12,6 +12,7 @@
     <None Remove="gpt2\vocab.json" />
     <None Remove="Qwen3\merges.txt" />
     <None Remove="Qwen3\vocab.json" />
+    <None Remove="T5\spiece.model" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,8 +26,10 @@
   <ItemGroup>
 	<EmbeddedResource Include="gpt2\merges.txt" />
     <EmbeddedResource Include="gpt2\vocab.json" />
+    <EmbeddedResource Include="Llama\tokenizer.model" />
     <EmbeddedResource Include="Qwen3\merges.txt" />
     <EmbeddedResource Include="Qwen3\vocab.json" />
+    <EmbeddedResource Include="T5\spiece.model" />
   </ItemGroup>
 
 </Project>

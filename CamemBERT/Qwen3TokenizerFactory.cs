@@ -123,16 +123,6 @@ public static class Qwen3TokenizerFactory
         return stream;
     }
 
-    // Retourne le contenu JSON de vocab.json comme chaîne (ou null si introuvable)
-    public static string? ReadVocabJsonText()
-    {
-        using Stream? s = GetVocabJsonStream();
-        if (s == null)
-            return null;
-        using StreamReader r = new StreamReader(s, Encoding.UTF8);
-        return r.ReadToEnd();
-    }
-
     // Charge le contenu embarqué de Qwen3/merges.txt comme flux.
     public static Stream? GetMergesTxtStream()
     {

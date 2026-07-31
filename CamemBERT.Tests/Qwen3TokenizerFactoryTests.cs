@@ -10,7 +10,7 @@ namespace CamemBERT.Tests
     public sealed class Qwen3TokenizerFactoryTests
     {
         [TestMethod]
-        public void TestCreateBpeTokenizer()
+        public void TestQwen3TokenizerFactory()
         {
             var query = "Your query here";
             var task = $"Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:{query}";

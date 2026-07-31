@@ -7,7 +7,7 @@ namespace CamemBERT.Tests
     public sealed class BpeTokenizerFactoryTests
     {
         [TestMethod]
-        public void TestCreateBpeTokenizer()
+        public void TestBpeTokenizerFactoryCreate()
         {
             BpeTokenizer bpeTokenizer = BpeTokenizerFactory.Create();
 
@@ -34,7 +34,7 @@ namespace CamemBERT.Tests
         }
 
         [TestMethod]
-        public void TestCreateBpeTokenizerWithCustomOptions()
+        public void TestBpeTokenizerFactoryCreateWithCustomOptions()
         {
             // https://github.com/luisquintanilla/dotnet-tokenizers-guide/blob/main/cookbook/bpe-with-options.cs
             // Not working here since GPT2 has no special 
@@ -67,7 +67,7 @@ namespace CamemBERT.Tests
         }
 
         [TestMethod]
-        public void TestCreateBpeTokenizerWithLowerCaseNormalizer()
+        public void TestBpeTokenizerFactoryCreateWithLowerCaseNormalizer()
         {
             BpeTokenizer lowerTokenizer = BpeTokenizerFactory.Create(new LowerCaseNormalizer());
             
