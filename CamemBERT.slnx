@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CamemBERT.Tests/CamemBERT.Tests.csproj" />
+  <Project Path="CamemBERT/CamemBERT.csproj" />
+</Solution>
