@@ -8,8 +8,8 @@
 
 	<ItemGroup>
 		<None Remove="BertBaseUncased\vocab.txt" />
-		<None Remove="gpt2\merges.txt" />
-		<None Remove="gpt2\vocab.json" />
+		<None Remove="Gpt2\merges.txt" />
+		<None Remove="Gpt2\vocab.json" />
 		<None Remove="Qwen3\merges.txt" />
 		<None Remove="Qwen3\vocab.json" />
 		<None Remove="T5\spiece.model" />
@@ -26,8 +26,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="BertBaseUncased\vocab.txt" />
-		<EmbeddedResource Include="gpt2\merges.txt" />
-		<EmbeddedResource Include="gpt2\vocab.json" />
+		<EmbeddedResource Include="Gpt2\merges.txt" />
+		<EmbeddedResource Include="Gpt2\vocab.json" />
 		<EmbeddedResource Include="Llama\tokenizer.model" />
 		<EmbeddedResource Include="Qwen3\merges.txt" />
 		<EmbeddedResource Include="Qwen3\vocab.json" />

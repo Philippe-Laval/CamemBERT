@@ -69,23 +69,23 @@ public static class BpeTokenizerFactory
         return tokenizer;
     }
 
-    // Charge le contenu embarqué de gpt2/vocab.json comme flux.
+    // Charge le contenu embarqué de Gpt2/vocab.json comme flux.
     public static Stream? GetVocabJsonStream()
     {
         // Nom de ressource embarquée: <RootNamespace>.<folder>.<file>
-        // Dans ce projet, le root namespace est "CamemBERT" et le fichier est gpt2\vocab.json
-        string resourceName = "CamemBERT.gpt2.vocab.json";
+        // Dans ce projet, le root namespace est "CamemBERT" et le fichier est Gpt2\vocab.json
+        string resourceName = "CamemBERT.Gpt2.vocab.json";
         Assembly asm = Assembly.GetExecutingAssembly();
         Stream? stream = asm.GetManifestResourceStream(resourceName);
         return stream;
     }
 
-    // Charge le contenu embarqué de gpt2/merges.txt comme flux.
+    // Charge le contenu embarqué de Gpt2/merges.txt comme flux.
     public static Stream? GetMergesTxtStream()
     {
         // Nom de ressource embarquée: <RootNamespace>.<folder>.<file>
-        // Dans ce projet, le root namespace est "CamemBERT" et le fichier est gpt2\merges.txt
-        string resourceName = "CamemBERT.gpt2.merges.txt";
+        // Dans ce projet, le root namespace est "CamemBERT" et le fichier est Gpt2\merges.txt
+        string resourceName = "CamemBERT.Gpt2.merges.txt";
         Assembly asm = Assembly.GetExecutingAssembly();
         Stream? stream = asm.GetManifestResourceStream(resourceName);
         return stream;
