@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
+// BPE (Byte Pair Encoding) tokenizer
+//
 // For a real model, download from HuggingFace:
 //   vocab.json: https://huggingface.co/openai-community/gpt2/resolve/main/vocab.json
 //   merges.txt: https://huggingface.co/openai-community/gpt2/resolve/main/merges.txt

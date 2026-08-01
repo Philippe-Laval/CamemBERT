@@ -7,6 +7,12 @@ namespace CamemBERT
 {
     public static class TiktokenTokenizerFactory
     {
+        public static TiktokenTokenizer CreateGpt5()
+        {
+            TiktokenTokenizer gpt5 = TiktokenTokenizer.CreateForModel("gpt-5");
+            return gpt5;
+        }
+
         public static TiktokenTokenizer CreateGpt4o()
         {
             // <PackageReference Include = "Microsoft.ML.Tokenizers.Data.O200kBase" Version="2.0.0" />
