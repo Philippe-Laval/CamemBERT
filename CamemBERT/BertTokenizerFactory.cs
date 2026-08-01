@@ -36,6 +36,7 @@ namespace CamemBERT
             BertTokenizer tokenizer = BertTokenizer.Create(modelStream,
                 new BertOptions
                 {
+                    // Important: BERT-base-uncased is case-insensitive, so we lowercase before tokenization
                     LowerCaseBeforeTokenization = true,
                     ClassificationToken = "[CLS]",
                     SeparatorToken = "[SEP]",
@@ -73,6 +74,27 @@ namespace CamemBERT
 
             return (pairedIds, typeIds);
         }
+
+        /*
+         For batch processing, sequences must be the same length. Use padding:
+
+int maxLength = 128;  // or max length in batch
+
+int[] inputIds = new int[maxLength];
+int[] attentionMask = new int[maxLength];
+int[] tokenTypeIds = new int[maxLength];
+
+var ids = tokenizer.EncodeToIds(text);
+
+// Copy actual tokens
+for (int i = 0; i < ids.Count && i < maxLength; i++)
+{
+    inputIds[i] = ids[i];
+    attentionMask[i] = 1;   // 1 = real token
+}
+        Confusing token type IDs with attention masks. Token type IDs (0/1) indicate sentence A vs B. Attention masks (0/1) indicate real tokens vs padding. They serve different purposes.
+
+         */
 
 
         // Charge le contenu embarqué de BertBaseUncased\vocab.txt comme flux.
