@@ -33,18 +33,32 @@ namespace CamemBERT
             if (modelStream == null)
                 throw new InvalidOperationException("vocab.txt stream is null");
 
-            BertTokenizer tokenizer = BertTokenizer.Create(modelStream,
-                new BertOptions
-                {
-                    // Important: BERT-base-uncased is case-insensitive, so we lowercase before tokenization
-                    LowerCaseBeforeTokenization = true,
-                    ClassificationToken = "[CLS]",
-                    SeparatorToken = "[SEP]",
-                    PaddingToken = "[PAD]"
-                });
+            BertOptions bertOptions = new BertOptions {
+                // Important: BERT-base-uncased is case-insensitive, so we lowercase before tokenization
+                LowerCaseBeforeTokenization = true,
+                ClassificationToken = "[CLS]",
+                SeparatorToken = "[SEP]",
+                PaddingToken = "[PAD]"
+            };
+
+            BertTokenizer tokenizer = BertTokenizer.Create(modelStream, bertOptions);
 
             return tokenizer;
         }
+
+        public static BertTokenizer Create(BertOptions bertOptions)
+        {
+            using var modelStream = GetBertBaseUncasedVocabStream();
+
+            if (modelStream == null)
+                throw new InvalidOperationException("vocab.txt stream is null");
+
+            BertTokenizer tokenizer = BertTokenizer.Create(modelStream, bertOptions);
+
+            return tokenizer;
+        }
+
+        
 
         /// <summary>
         /// Encode a sentence pair

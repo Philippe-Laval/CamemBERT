@@ -84,5 +84,6 @@ namespace CamemBERT.Tests
             string? decoded = tokenizer.Decode(ids);
             Console.WriteLine($"Decoded: \"{decoded}\"");
         }
+
     }
 }

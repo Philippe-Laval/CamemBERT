@@ -15,7 +15,7 @@ namespace CamemBERT.Tests
         [TestMethod]
         public void TestEncodeToIds_Basic()
         {
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "The quick brown fox jumps over the lazy dog.";
 
             // String overload
@@ -31,7 +31,7 @@ namespace CamemBERT.Tests
         [TestMethod]
         public void TestEncodeToIds_WithMaxTokenLimit()
         {
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "The quick brown fox jumps over the lazy dog.";
 
             // Encode at most 5 tokens, find out how many characters were consumed
@@ -49,7 +49,7 @@ namespace CamemBERT.Tests
         [TestMethod]
         public void TestEncodeToToken_Detailed_Token_Information()
         {
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "The quick brown fox jumps over the lazy dog.";
 
             IReadOnlyList<EncodedToken> tokens = tokenizer.EncodeToTokens(text, out string? normalized);
@@ -67,7 +67,7 @@ namespace CamemBERT.Tests
         [TestMethod]
         public void TestCountTokens()
         {
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "The quick brown fox jumps over the lazy dog.";
 
             // When you only need the count, CountTokens is more efficient
@@ -82,7 +82,7 @@ namespace CamemBERT.Tests
         [TestMethod]
         public void TestDecode()
         {
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "Hello, world!";
 
             // Encode
@@ -109,7 +109,7 @@ namespace CamemBERT.Tests
     Debugging — understanding token boundaries  
              */
 
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "Microsoft's AI tokenizer";
             var tokens = tokenizer.EncodeToTokens(text, out _);
 
@@ -126,7 +126,7 @@ namespace CamemBERT.Tests
         [TestMethod]
         public void TestBypassingPipelineStages()
         {
-            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.Create();
+            TiktokenTokenizer tokenizer = TiktokenTokenizerFactory.CreateGpt4o();
             string text = "The quick brown fox jumps over the lazy dog.";
 
             // Skip normalization (text already preprocessed)
@@ -139,6 +139,199 @@ namespace CamemBERT.Tests
                 considerPreTokenization: false);
         }
 
+
+        [TestMethod]
+        public void TestVisualTokenizerComparison()
+        {
+            // https://github.com/luisquintanilla/dotnet-tokenizers-guide/blob/main/examples/07-tokenizer-comparison-visual.cs
+
+            Console.WriteLine("═══ Visual Tokenizer Comparison ═══\n");
+
+            TiktokenTokenizer gpt4o = TiktokenTokenizerFactory.CreateGpt4o();
+            TiktokenTokenizer gpt4 = TiktokenTokenizerFactory.CreateGpt4();
+
+            // ── 1. Side-by-side token boundaries ────────────────────────────────────────
+            Console.WriteLine("═══ 1. Token Boundaries — Same Text, Different Tokenizers ═══\n");
+
+            string[] texts = [
+                "Hello, world!",
+                "Tokenization is the first step in NLP.",
+                "def fibonacci(n): return n if n <= 1 else fibonacci(n-1)",
+                "The café served espresso and crème brûlée.",
+                "🤖 AI is transforming 🌍 the world!",
+                "Microsoft.ML.Tokenizers.TiktokenTokenizer",
+            ];
+
+            foreach (string text in texts)
+            {
+                Console.WriteLine($"Text: \"{text}\"\n");
+
+                // GPT-4o
+                var _gpt4oTokens = gpt4o.EncodeToTokens(text, out _);
+                Console.Write("  GPT-4o:  |");
+                foreach (var t in _gpt4oTokens)
+                {
+                    string val = t.Value.Replace("\n", "\\n");
+                    Console.Write($"{val}|");
+                }
+                Console.WriteLine($"  ({_gpt4oTokens.Count} tokens)");
+
+                // GPT-4
+                var _gpt4Tokens = gpt4.EncodeToTokens(text, out _);
+                Console.Write("  GPT-4:   |");
+                foreach (var t in _gpt4Tokens)
+                {
+                    string val = t.Value.Replace("\n", "\\n");
+                    Console.Write($"{val}|");
+                }
+                Console.WriteLine($"  ({_gpt4Tokens.Count} tokens)");
+
+                Console.WriteLine();
+            }
+
+            // ── 2. Token ID comparison ──────────────────────────────────────────────────
+            Console.WriteLine("═══ 2. Token IDs — Same Word, Different Vocabularies ═══\n");
+
+            string[] words = ["Hello", " the", "AI", " world", "function", "\n"];
+
+            Console.WriteLine($"  {"Token",-12} {"GPT-4o ID",10} {"GPT-4 ID",10}  Same?");
+            Console.WriteLine($"  {new string('-', 12)} {new string('-', 10)} {new string('-', 10)}  {new string('-', 5)}");
+
+            foreach (string word in words)
+            {
+                var o = gpt4o.EncodeToIds(word);
+                var c = gpt4.EncodeToIds(word);
+
+                string display = word.Replace("\n", "\\n").Replace(" ", "·");
+                string oId = o.Count == 1 ? o[0].ToString() : $"[{string.Join(",", o)}]";
+                string cId = c.Count == 1 ? c[0].ToString() : $"[{string.Join(",", c)}]";
+                bool same = o.SequenceEqual(c);
+
+                Console.WriteLine($"  {$"\"{display}\"",-12} {oId,10} {cId,10}  {(same ? "✅" : "❌")}");
+            }
+
+            Console.WriteLine("\n  Note: Same token → different IDs in different vocabularies.");
+            Console.WriteLine("  Never mix token IDs from different tokenizers!\n");
+
+            // ── 3. Efficiency comparison ────────────────────────────────────────────────
+            Console.WriteLine("═══ 3. Token Efficiency by Content Type ═══\n");
+
+            var contentTypes = new (string Type, string Sample)[]
+            {
+    ("English prose",   "The quick brown fox jumps over the lazy dog on a sunny afternoon."),
+    ("Python code",     "def quicksort(arr): return [] if not arr else quicksort([x for x in arr[1:] if x <= arr[0]]) + [arr[0]] + quicksort([x for x in arr[1:] if x > arr[0]])"),
+    ("JSON",            """{"users": [{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]}"""),
+    ("SQL",             "SELECT u.name, COUNT(o.id) AS order_count FROM users u LEFT JOIN orders o ON u.id = o.user_id GROUP BY u.name HAVING COUNT(o.id) > 5 ORDER BY order_count DESC"),
+    ("Chinese",         "人工智能正在以前所未有的速度改变着我们的世界和日常生活。"),
+    ("Math notation",   "∀x ∈ ℝ: |sin(x)| ≤ 1 ∧ ∃n ∈ ℤ: sin(nπ) = 0"),
+    ("Mixed emoji",     "🎉 Party 🎊 time! 🎈 Let's 🥳 celebrate 🎁 together! 🎄"),
+    ("URL",             "https://learn.microsoft.com/en-us/dotnet/api/microsoft.ml.tokenizers"),
+            };
+
+            Console.WriteLine($"  {"Content Type",-18} {"Chars",6} {"GPT-4o",7} {"GPT-4",7} {"4o tok/ch",10} {"4 tok/ch",10}");
+            Console.WriteLine($"  {new string('-', 18)} {new string('-', 6)} {new string('-', 7)} {new string('-', 7)} {new string('-', 10)} {new string('-', 10)}");
+
+            foreach (var (type, sample) in contentTypes)
+            {
+                int oCount = gpt4o.CountTokens(sample);
+                int cCount = gpt4.CountTokens(sample);
+                double oRatio = (double)oCount / sample.Length;
+                double cRatio = (double)cCount / sample.Length;
+
+                Console.WriteLine($"  {type,-18} {sample.Length,6} {oCount,7} {cCount,7} {oRatio,10:F3} {cRatio,10:F3}");
+            }
+
+            // ── 4. Algorithm comparison reference ───────────────────────────────────────
+            Console.WriteLine("\n\n═══ 4. Algorithm Comparison Reference ═══\n");
+
+            Console.WriteLine("""
+    ┌──────────────┬───────────────┬───────────────┬────────────────────┐
+    │ Property     │ Tiktoken/BPE  │ WordPiece     │ SentencePiece      │
+    ├──────────────┼───────────────┼───────────────┼────────────────────┤
+    │ Used by      │ GPT-4o, GPT-4 │ BERT          │ Llama, T5          │
+    │ Space marker │ Leading space │ None (## pfx) │ ▁ prefix           │
+    │ OOV handling │ Byte fallback │ Entire → [UNK]│ Byte/char fallback │
+    │ Special toks │ <|endoftext|> │ [CLS] [SEP]   │ <s> </s>           │
+    │ Normalization│ None (GPT)    │ Lowercase     │ NFKC + ▁           │
+    │ .NET class   │ TiktokenTok.  │ BertTokenizer │ LlamaTokenizer     │
+    └──────────────┴───────────────┴───────────────┴────────────────────┘
+
+    Observations:
+    • GPT-4o (o200k_base) is generally more token-efficient than GPT-4 (cl100k_base)
+    • Non-Latin scripts are less token-efficient across all tokenizers
+    • Code tends to have higher token density than prose
+    • Emoji can consume multiple tokens due to Unicode encoding
+    """);
+
+            // ── 5. Llama / BERT patterns ────────────────────────────────────────────────
+            Console.WriteLine("\n═══ 5. Llama & BERT Comparison Patterns ═══\n");
+
+           
+            LlamaTokenizer llama = LlamaTokenizerFactory.Create();
+            BertTokenizer bert = BertTokenizerFactory.Create();
+
+            string text2 = "Hello, world!";
+
+            // GPT-4o:  |Hello|,| world|!|             → 4 tokens
+            // Llama:   |<s>|▁Hello|,|▁world|!|        → 5 tokens (with BOS)
+            // BERT:    |[CLS]|hello|,|world|!|[SEP]|   → 6 tokens (lowercased, with CLS/SEP)
+
+
+            // GPT-4
+            var gpt4Tokens = gpt4.EncodeToTokens(text2, out _);
+            Console.Write("  GPT-4:   |");
+            foreach (var t in gpt4Tokens)
+            {
+                string val = t.Value.Replace("\n", "\\n");
+                Console.Write($"{val}|");
+            }
+            Console.WriteLine($"  ({gpt4Tokens.Count} tokens)");
+
+            Console.WriteLine();
+
+            // GPT-4o
+            var gpt4oTokens = gpt4o.EncodeToTokens(text2, out _);
+            Console.Write("  GPT-4o:  |");
+            foreach (var t in gpt4oTokens)
+            {
+                string val = t.Value.Replace("\n", "\\n");
+                Console.Write($"{val}|");
+            }
+            Console.WriteLine($"  ({gpt4oTokens.Count} tokens)");
+
+            Console.WriteLine();
+
+            // Llama
+            var llamaTokens = llama.EncodeToTokens(text2, out _);
+            Console.Write("  Llama:   |");
+            foreach (var t in llamaTokens)
+            {
+                string val = t.Value.Replace("\n", "\\n");
+                Console.Write($"{val}|");
+            }
+            Console.WriteLine($"  ({llamaTokens.Count} tokens)");
+
+            Console.WriteLine();
+
+            // BERT
+            var bertTokens = bert.EncodeToTokens(text2, out _);
+            Console.Write("  BERT:    |");
+            foreach (var t in bertTokens)
+            {
+                string val = t.Value.Replace("\n", "\\n");
+                Console.Write($"{val}|");
+            }
+            Console.WriteLine($"  ({bertTokens.Count} tokens)");
+
+            Console.WriteLine();
+
+
+            // Key differences:
+            // - GPT-4o: leading space in " world", no special tokens for plain text
+            // - Llama: ▁ prefix for word starts, <s> BOS token
+            // - BERT: lowercased, ## for subwords, [CLS]/[SEP] added automatically
+
+        }
 
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
+
+
 // https://github.com/luisquintanilla/dotnet-tokenizers-guide/blob/main/docs/05-wordpiece-bert-tokenizer.md
 // Download from HuggingFace: https://huggingface.co/google-bert/bert-base-uncased/resolve/main/vocab.txt
 
