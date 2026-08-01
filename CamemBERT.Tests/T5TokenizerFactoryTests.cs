@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CamemBERT.Tests;
+namespace CamemBERT.Library.Tests;
 
 [TestClass]
 public sealed class T5TokenizerFactoryTests

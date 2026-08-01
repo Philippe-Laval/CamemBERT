@@ -1,7 +1,7 @@
 ﻿using Microsoft.ML.Tokenizers;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace CamemBERT.Tests;
+namespace CamemBERT.Library.Tests;
 
 [TestClass]
 public sealed class BpeTokenizerFactoryTests

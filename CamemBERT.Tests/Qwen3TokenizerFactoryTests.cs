@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace CamemBERT.Tests;
+namespace CamemBERT.Library.Tests;
 
 [TestClass]
 public sealed class Qwen3TokenizerFactoryTests

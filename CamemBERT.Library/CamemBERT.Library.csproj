@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="BertBaseUncased\vocab.txt" />
+		<None Remove="gpt2\merges.txt" />
+		<None Remove="gpt2\vocab.json" />
+		<None Remove="Qwen3\merges.txt" />
+		<None Remove="Qwen3\vocab.json" />
+		<None Remove="T5\spiece.model" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.28.0" />
+		<PackageReference Include="Microsoft.ML.Tokenizers" Version="2.0.0" />
+		<PackageReference Include="Microsoft.ML.Tokenizers.Data.Cl100kBase" Version="2.0.0" />
+		<PackageReference Include="Microsoft.ML.Tokenizers.Data.O200kBase" Version="2.0.0" />
+		<PackageReference Include="Microsoft.ML.Tokenizers.Data.P50kBase" Version="2.0.0" />
+		<PackageReference Include="Microsoft.ML.Tokenizers.Data.R50kBase" Version="2.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="BertBaseUncased\vocab.txt" />
+		<EmbeddedResource Include="gpt2\merges.txt" />
+		<EmbeddedResource Include="gpt2\vocab.json" />
+		<EmbeddedResource Include="Llama\tokenizer.model" />
+		<EmbeddedResource Include="Qwen3\merges.txt" />
+		<EmbeddedResource Include="Qwen3\vocab.json" />
+		<EmbeddedResource Include="T5\spiece.model" />
+	</ItemGroup>
+
+</Project>

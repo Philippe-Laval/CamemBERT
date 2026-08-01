@@ -1,4 +1,4 @@
-﻿using CamemBERT.Normalizers;
+﻿using CamemBERT.Library.Normalizers;
 using Microsoft.ML.Tokenizers;
 using System;
 using System.Collections.Generic;

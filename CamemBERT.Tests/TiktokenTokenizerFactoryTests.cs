@@ -7,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 // https://github.com/luisquintanilla/dotnet-tokenizers-guide/blob/main/docs/06-encoding-decoding.md
 
-namespace CamemBERT.Tests;
+namespace CamemBERT.Library.Tests;
 
 [TestClass]
 public sealed class TiktokenTokenizerFactoryTests

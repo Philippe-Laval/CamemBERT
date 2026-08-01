@@ -1,4 +1,5 @@
 <Solution>
-  <Project Path="CamemBERT.Tests/CamemBERT.Tests.csproj" />
-  <Project Path="CamemBERT/CamemBERT.csproj" />
+  <Project Path="CamemBERT.Library/CamemBERT.Library.csproj" Id="cb61ce8e-7d6a-44a6-a59f-a6eb004f9a20" />
+  <Project Path="CamemBERT.Tests/CamemBERT.Library.Tests.csproj" />
+  <Project Path="CamemBERT/CamemBERT.Console.csproj" />
 </Solution>

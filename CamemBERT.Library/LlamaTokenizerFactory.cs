@@ -22,7 +22,7 @@ SentencePieceTokenizer and LlamaTokenizer handle models trained with Google's Se
 Key insight: SentencePiece is a framework, not an algorithm. It can run either BPE or Unigram underneath. Llama uses SentencePiece with BPE. T5 uses SentencePiece with Unigram. 
  */
 
-namespace CamemBERT;
+namespace CamemBERT.Library;
 
 public static class LlamaTokenizerFactory
 {

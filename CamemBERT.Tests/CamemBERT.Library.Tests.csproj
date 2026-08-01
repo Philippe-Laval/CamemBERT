@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CamemBERT\CamemBERT.csproj" />
+    <ProjectReference Include="..\CamemBERT.Library\CamemBERT.Library.csproj" />
   </ItemGroup>
 
 </Project>

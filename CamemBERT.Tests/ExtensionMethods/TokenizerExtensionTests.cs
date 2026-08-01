@@ -1,10 +1,10 @@
-﻿using CamemBERT.ExtensionMethods;
+﻿using CamemBERT.Library.ExtensionMethods;
 using Microsoft.ML.Tokenizers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CamemBERT.Tests.ExtensionMethods;
+namespace CamemBERT.Library.Tests.ExtensionMethods;
 
 [TestClass]
 public sealed class TokenizerExtensionTests
