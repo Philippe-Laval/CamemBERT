@@ -35,5 +35,19 @@ namespace CamemBERT.Tests
             string? decoded = tokenizer.Decode(ids);
             Console.WriteLine($"Decoded: \"{decoded}\"");
         }
+
+
+        [TestMethod]
+        public void TestEncodeSentencePair()
+        {
+            var tokenizer = BertTokenizerFactory.Create();
+
+            string sentenceA = "What is the capital of France?";
+            string sentenceB = "The capital of France is Paris.";
+
+            var (pairedIds, typeIds) = BertTokenizerFactory.EncodeSentencePair(tokenizer, sentenceA, sentenceB);
+
+            Assert.AreEqual(pairedIds.Count, typeIds.Count);
+        }
     }
 }
