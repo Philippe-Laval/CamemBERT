@@ -6,14 +6,14 @@ using System.Text;
 namespace CamemBERT.Tests
 {
     [TestClass]
-    public sealed class WordPieceTokenizerFactoryTest
+    public sealed class BertTokenizerFactoryTests
     {
         [TestMethod]
-        public void TestWordPieceTokenizerFactory()
+        public void TestBertTokenizerFactory()
         {
-            var tokenizer = WordPieceTokenizerFactory.Create();
+            var tokenizer = BertTokenizerFactory.Create();
 
-            string text = "tokenization is fun.";
+            string text = "Hello, world!";
             IReadOnlyList<int> ids = tokenizer.EncodeToIds(text);
 
             Console.WriteLine($"Text:   \"{text}\"");
